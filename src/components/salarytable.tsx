@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Select from 'react-select';
 import {
@@ -104,6 +104,7 @@ export default function SalaryTable() {
 
     useEffect(() => {
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [params]);
 
     const columns: ColumnDef<SalaryEntry>[] = [

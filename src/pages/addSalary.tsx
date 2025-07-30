@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { supabase } from '../supabaseClient';
 import Select from 'react-select';
@@ -78,7 +78,8 @@ export default function AddSalary() {
 
     const isEmailPro = (email: string): boolean => {
         const domain = email.split("@")[1]?.toLowerCase();
-        return domain && !forbiddenDomains.has(domain);
+        if (!domain) return false;
+        return !forbiddenDomains.has(domain);
     };
 
     const onSubmit = async (data: FormData) => {

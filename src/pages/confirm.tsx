@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 
 export default function ConfirmPage() {
@@ -27,7 +27,10 @@ export default function ConfirmPage() {
       }
 
       // 2. Copier vers la table finale 'salaires'
-      const cleaned = pending.map(({ id, date_ajout, email, ...rest }) => rest);
+      const cleaned = pending.map(entry => {
+        const { id, date_ajout, email, ...rest } = entry;
+        return rest;
+      });
 
 
       const { error: insertError } = await supabase.from('salaires').insert(cleaned);
