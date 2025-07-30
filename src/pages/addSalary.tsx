@@ -177,7 +177,7 @@ export default function AddSalary() {
                 </div>
 
                 <div>
-                    <label className="block text-sm text-start md:w-40 w-[100%]">Niveau</label>
+                    <label className="block text-sm text-start ">Niveau</label>
                     <Controller
                         name="niveau"
                         control={control}

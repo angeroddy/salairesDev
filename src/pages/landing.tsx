@@ -11,7 +11,7 @@ const Landing = () => {
     return (
         <main className='flex justify-center items-center flex-col'>
             <nav className='flex justify-center items-center w-screen ps-10'>
-                <p className='font-extrabold mb-5 text-[20px] lg:text-3xl'>salairestech.com</p>
+                <p className='font-extrabold mb-5 text-[20px] lg:text-3xl'>salairestech.</p>
             </nav>
             <div className="flex flex-col items-center justify-center">
                 {/* Animation sur le texte */}

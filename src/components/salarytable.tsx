@@ -165,7 +165,7 @@ export default function SalaryTable() {
                 <select
                     value={niveau}
                     onChange={(e) => updateParam('niveau', e.target.value)}
-                    className="border px-2 py-1 rounded "
+                    className="border px-2 py-1 rounded md:w-40 w-[100%] "
                 >
                     <option value="">Niveau</option>
                     <option value="Junior">Junior</option>
@@ -183,7 +183,7 @@ export default function SalaryTable() {
 
                 <button
                     onClick={() => setParams({})}
-                    className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200"
+                    className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 md:w-40 w-[100%]"
                 >
                      Réinitialiser
                 </button>
