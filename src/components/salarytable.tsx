@@ -113,7 +113,7 @@ export default function SalaryTable() {
         { accessorKey: 'localisation', header: 'Localisation' },
         {
             accessorKey: 'remuneration',
-            header: 'Rémunération nette en FCFA / an',
+            header: 'Rémunération brut en FCFA / an',
             cell: info => formatRemuneration(info.getValue() as string)
         },
         {
