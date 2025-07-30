@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import logo from './assets/salairetech.png';
+
 import './App.css'
 import Landing from "./pages/landing";
 import AddSalary from "./pages/addSalary";
