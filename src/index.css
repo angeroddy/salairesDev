@@ -1,0 +1,9 @@
+@import "tailwindcss";
+body{
+  box-sizing: border-box;
+  overflow-x: hidden;
+  font-family: "Funnel Display", sans-serif;
+}
+.orange{
+  color: #FF8200;
+}
