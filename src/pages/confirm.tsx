@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 
 export default function ConfirmPage() {
   const [message, setMessage] = useState('Vérification en cours...');
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const processConfirmation = async () => {
       try {
-        // 🔑 Étape 1 : extraire le token OTP de l'URL
+        // 🔑 1. Récupérer les tokens dans l'URL (#access_token=...)
         const hash = window.location.hash;
-        const access_token = new URLSearchParams(hash.substring(1)).get('access_token');
-        const refresh_token = new URLSearchParams(hash.substring(1)).get('refresh_token');
+        const params = new URLSearchParams(hash.substring(1));
+        const access_token = params.get('access_token');
+        const refresh_token = params.get('refresh_token');
 
-        // 🔐 Étape 2 : établir la session Supabase si token présent
         if (access_token && refresh_token) {
           const { error: sessionError } = await supabase.auth.setSession({
             access_token,
@@ -27,7 +29,7 @@ export default function ConfirmPage() {
           }
         }
 
-        // 🔍 Étape 3 : récupérer l'utilisateur maintenant que la session est en place
+        // 2. Récupérer l'utilisateur connecté
         const { data: { user }, error: userError } = await supabase.auth.getUser();
 
         if (userError || !user) {
@@ -38,7 +40,7 @@ export default function ConfirmPage() {
 
         const email = user.email;
 
-        // ✅ Vérification anti double soumission
+        // 3. Éviter la double insertion
         const { data: alreadyExists } = await supabase
           .from('salaires')
           .select('id')
@@ -51,7 +53,7 @@ export default function ConfirmPage() {
           return;
         }
 
-        // 📥 Étape 4 : récupérer les lignes dans salaires_pending
+        // 4. Récupérer les entrées temporaires
         const { data: pending, error: fetchError } = await supabase
           .from('salaires_pending')
           .select('*')
@@ -63,8 +65,9 @@ export default function ConfirmPage() {
           return;
         }
 
-        // 📤 Étape 5 : insérer dans salaires
+        // 5. Nettoyage des champs
         const cleaned = pending.map(({ id, date_ajout, email, ...rest }) => rest);
+
         const { error: insertError } = await supabase.from('salaires').insert(cleaned);
         if (insertError) {
           setMessage("❌ Une erreur est survenue lors de la validation : " + insertError.message);
@@ -72,7 +75,7 @@ export default function ConfirmPage() {
           return;
         }
 
-        // 🧹 Étape 6 : suppression des lignes temporaires
+        // 6. Suppression de la table temporaire
         const { error: deleteError } = await supabase
           .from('salaires_pending')
           .delete()
@@ -83,8 +86,13 @@ export default function ConfirmPage() {
         } else {
           setMessage('✅ Votre salaire a été publié avec succès ! Merci pour votre contribution.');
         }
-      } catch (error) {
-        console.error(error);
+
+        // 7. Redirection après 6 secondes
+        setTimeout(() => {
+          navigate('/');
+        }, 6000);
+      } catch (e) {
+        console.error(e);
         setMessage("❌ Une erreur inattendue est survenue.");
       } finally {
         setLoading(false);
@@ -92,7 +100,7 @@ export default function ConfirmPage() {
     };
 
     processConfirmation();
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="max-w-xl mx-auto p-6 text-center">
@@ -100,7 +108,14 @@ export default function ConfirmPage() {
       {loading ? (
         <p className="text-gray-500 animate-pulse">Chargement en cours...</p>
       ) : (
-        <p>{message}</p>
+        <>
+          <p>{message}</p>
+          {message.startsWith("✅") && (
+            <p className="mt-2 text-sm text-gray-500">
+              Vous allez être redirigé automatiquement vers la page d’accueil...
+            </p>
+          )}
+        </>
       )}
     </div>
   );
