@@ -12,6 +12,10 @@ export default function ConfirmPage() {
       try {
         // 🔑 1. Récupérer les tokens dans l'URL (#access_token=...)
         const hash = window.location.hash;
+        if (!hash.includes('access_token')) {
+          setMessage("⚠️ Merci de cliquer sur le lien contenu dans l’email pour confirmer.");
+          return;
+        }
         const params = new URLSearchParams(hash.substring(1));
         const access_token = params.get('access_token');
         const refresh_token = params.get('refresh_token');
