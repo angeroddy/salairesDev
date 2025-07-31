@@ -152,6 +152,12 @@ export default function AddSalary() {
     return (
         <div className="max-w-xl mx-auto p-6 bg-white rounded-lg border-1 border-solid border-stone-950">
             <h1 className="text-xl font-bold mb-4">Soumettre un salaire</h1>
+            <div className="bg-orange-100 border border-orange-500 text-orange-800 text-sm p-4 mb-4 rounded">
+                L’adresse email utilisée doit correspondre à celle de l’entreprise renseignée.
+                Vous devez avoir accès à cette adresse pour valider votre soumission via le lien envoyé par mail.
+                Sans validation, le salaire ne sera pas publié.
+                Vos données sont automatiquement supprimées après validation ou, à défaut, dans un délai de 6 jours.
+            </div>
             {typeof message === 'string' && (
                 <p className={`mb-4 ${message.startsWith("❌") ? "text-red-600" : "text-green-600"}`}>
                     {message}
