@@ -4,6 +4,7 @@ import './App.css'
 import Landing from "./pages/landing";
 import AddSalary from "./pages/addSalary";
 import ConfirmPage from "./pages/confirm";
+import { Analytics } from '@vercel/analytics/react';
 
 
 function App() {
@@ -14,6 +15,8 @@ function App() {
         <Route path="/ajouter-salaire" element={<AddSalary />} />
         <Route path="/confirm" element={<ConfirmPage />} />
       </Routes>
+      {/* Analytics pour Vercel */}
+      <Analytics />
     </Router>
   );
 }
